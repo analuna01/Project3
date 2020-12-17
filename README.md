@@ -1,4 +1,6 @@
 # Project 3 - Company Dashboard
+
+### HEROKU: https://safe-anchorage-34555.herokuapp.com/
 ![Dashboard logo](https://github.com/analuna01/Project3/blob/main/client/src/components/Home/images/bluebanner.jpg)
 ## Table of Contents
 1. [Description](#description)  
@@ -61,7 +63,7 @@ THEN it will display my personal information and allow me to edit and update the
 ### Heroku
 This app has been deployed to Heroku at:
 
-https://safe-anchorage-34555.herokuapp.com/
+
 ## License
 MIT License
 

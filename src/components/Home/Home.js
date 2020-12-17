@@ -19,30 +19,6 @@ import Hidden from '@material-ui/core/Hidden';
 // import withWidth from '@material-ui/core/withWidth';
 import pushPin from './images/pushPinBlue.png';
 import './Home.css';
-// import { createMuiTheme } from '@material-ui/core/styles';
-// const theme = createMuiTheme({
-// 	palette: {
-// 	  primary: {
-// 		// light: will be calculated from palette.primary.main,
-// 		main: '#ff4400',
-// 		// dark: will be calculated from palette.primary.main,
-// 		// contrastText: will be calculated to contrast with palette.primary.main
-// 	  },
-// 	  secondary: {
-// 		light: '#0066ff',
-// 		main: '#5e749b',
-// 		// dark: will be calculated from palette.secondary.main,
-// 		contrastText: '#ffcc00',
-// 	  },
-// 	  // Used by `getContrastText()` to maximize the contrast between
-// 	  // the background and the text.
-// 	  contrastThreshold: 3,
-// 	  // Used by the functions below to shift a color's luminance by approximately
-// 	  // two indexes within its tonal palette.
-// 	  // E.g., shift from Red 500 to Red 300 or Red 700.
-// 	  tonalOffset: 0.2,
-// 	},
-//   });
 
 import axios from 'axios';
 const useStyles = (theme) => ({
@@ -93,7 +69,7 @@ class Home extends Component {
 	componentDidMount() {
 		const userId = this.loadStoraged();
 
-		axios.get('http://localhost:4000/app/userid', { params: { id: userId } }).then((response) => {
+		axios.get('/app/userid', { params: { id: userId } }).then((response) => {
 			this.setState({
 				id: response.data[0]._id,
 				avatar: response.data[0].avatar,
@@ -104,7 +80,7 @@ class Home extends Component {
 			});
 		});
 
-		axios.get('http://localhost:4000/app/messages').then((response) => {
+		axios.get('/app/messages').then((response) => {
 			response.data.map((message) => {
 				if (message.recipient === this.state.id) {
 					const newMessage = {
@@ -126,7 +102,7 @@ class Home extends Component {
 			});
 		});
 
-		axios.get('http://localhost:4000/app/annoucements').then((response) => {
+		axios.get('/app/annoucements').then((response) => {
 			const annoucements = response.data.map((annoucement) => (
 				<AnnoucementElement
 					title={annoucement.title}
@@ -141,7 +117,7 @@ class Home extends Component {
 			});
 		});
 
-		axios.get('http://localhost:4000/app/schedules').then((response) => {
+		axios.get('/app/schedules').then((response) => {
 			response.data.map((schedule) => {
 				const newSchedule = {
 					userId: schedule.userId,

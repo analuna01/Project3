@@ -119,7 +119,7 @@ class Schedule extends Component {
 	componentDidMount() {
 		const userId = this.loadStoraged();
 
-		axios.get('http://localhost:4000/app/userid', { params: { id: userId } }).then((response) => {
+		axios.get('/app/userid', { params: { id: userId } }).then((response) => {
 			this.setState({
 				user: {
 					id: response.data[0]._id,
@@ -181,7 +181,7 @@ class Schedule extends Component {
 		// });
 		//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-		axios.get('http://localhost:4000/app/schedules').then((response) => {
+		axios.get('/app/schedules').then((response) => {
 			response.data.map((schedule) => {
 				const newSchedule = {
 					userId: schedule.userId,
@@ -348,9 +348,7 @@ class Schedule extends Component {
 
 		console.log('NEW Schedule:', newSchedule);
 
-		axios
-			.post('http://localhost:4000/app/schedule', newSchedule)
-			.then((response) => console.log('New schedule:', response.data));
+		axios.post('/app/schedule', newSchedule).then((response) => console.log('New schedule:', response.data));
 
 		this.setState({
 			newSchedule: {

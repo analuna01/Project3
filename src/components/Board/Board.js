@@ -134,7 +134,7 @@ class Board extends Component {
 	componentDidMount() {
 		const userId = this.loadStoraged();
 
-		axios.get('http://localhost:4000/app/userid', { params: { id: userId } }).then((response) => {
+		axios.get('/app/userid', { params: { id: userId } }).then((response) => {
 			console.log('User From the DB:', response.data);
 
 			this.setState({
@@ -145,7 +145,7 @@ class Board extends Component {
 			});
 		});
 
-		axios.get('http://localhost:4000/app/messages').then((response) => {
+		axios.get('/app/messages').then((response) => {
 			response.data.map((message) => {
 				if (message.recipient === this.state.newMessage.sender) {
 					const newMessage = {
@@ -197,7 +197,7 @@ class Board extends Component {
 			});
 		});
 
-		axios.get('http://localhost:4000/app/annoucements').then((response) => {
+		axios.get('/app/annoucements').then((response) => {
 			const annoucements = response.data.map((annoucement) => (
 				<AnnoucementElement
 					title={annoucement.title}
@@ -212,7 +212,7 @@ class Board extends Component {
 			});
 		});
 
-		axios.get('http://localhost:4000/app/users').then((response) => {
+		axios.get('/app/users').then((response) => {
 			const resusers = [];
 
 			response.data.map((user) => {
@@ -267,9 +267,7 @@ class Board extends Component {
 			recipient: this.state.user
 		};
 
-		axios
-			.post('http://localhost:4000/app/message', newMessage)
-			.then((response) => console.log('New Message:', response.data));
+		axios.post('/app/message', newMessage).then((response) => console.log('New Message:', response.data));
 
 		this.setState({
 			newMessage: {
@@ -319,7 +317,7 @@ class Board extends Component {
 		};
 
 		axios
-			.post('http://localhost:4000/app/annoucement', newAnnoucement)
+			.post('/app/annoucement', newAnnoucement)
 			.then((response) => console.log('New Annoucement:', response.data));
 
 		this.setState({
@@ -349,7 +347,7 @@ class Board extends Component {
 		this.setState({ user: event.target.value });
 		this.state.user = event.target.value;
 
-		axios.get('http://localhost:4000/app/userid', { params: { id: event.target.value } }).then((response) => {
+		axios.get('/app/userid', { params: { id: event.target.value } }).then((response) => {
 			console.log(response.data[0].firstName);
 			this.setState({
 				newMessage: {

@@ -91,7 +91,7 @@ class Login extends Component {
 		event.preventDefault();
 
 		axios
-			.get('http://localhost:4000/app/login', {
+			.get('/app/login', {
 				params: { user: this.state.user, password: this.state.password }
 			})
 			.then((response) => {
@@ -99,7 +99,7 @@ class Login extends Component {
 					console.log('USER NotFound');
 				} else {
 					console.log('USER   Found', response.data);
-					axios.get('http://localhost:4000/app/userid', { params: { id: response.data } }).then((res) => {
+					axios.get('/app/userid', { params: { id: response.data } }).then((res) => {
 						this.setStoraged(res.data[0]);
 					});
 				}
