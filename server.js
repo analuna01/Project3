@@ -1,45 +1,60 @@
-// const express = require("express");
-// const path = require("path");
-// const mongoose = require("mongoose");
-// const cors = require("cors");
-// const bodyParser = require("body-parser");
-// // const { info } = require("console");
+const express = require("express");
+const mongoose = require("mongoose");
+const routesUrls = require('./routes/routes');
 
-// // Set up express
+const app = express();
+
+// Set up Mongo DB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/Company-App",
+{
+    useNewUrlParser: true,
+    useUnifiedTopology: true 
+},
+() => {
+    console.log("Mongoose is connected")
+});
+
+// Middleware 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Heroku set up
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+}
+
+// API routes 
+app.use('/app', routesUrls);
+
+// Port
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+    console.log(`🌎 ==> API server now on port ${PORT}!`);
+});
+
+// const express = require('express');
 // const app = express();
+// const mongoose = require('mongoose');
+// const dotenv = require('dotenv');
+// const routesUrls = require('./routes/routes');
+// const cors = require('cors');
 
-// // Set up Mongoose
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/company",
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false
-//   },
-//   () => {
-//     console.log("Mongoose is connected")
-//   });
+// dotenv.config();
 
-// // -----------------------------Middleware-----------------------------
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000", //<--- location of the react app
-//     credentials: true,
-//   }));
+// //mongoose.connect(process.env.DATABASE_ACCESS, () => console.log('DataBase Connected'));
 
-// // -------------------------- Routes and PORT --------------------------
-// require("./client/backend/routes/routes")(app);
+// mongoose
+// 	.connect('mongodb://localhost/Company-App', {
+// 		useCreateIndex: true,
+// 		useUnifiedTopology: true,
+// 		useNewUrlParser: true,
+// 		useFindAndModify: false
+// 	})
+// 	.then((db) => console.log('DB is connected'));
 
-// const PORT = process.env.PORT || 4000;
+// app.use(express.json());
+// app.use(cors());
+// app.use('/app', routesUrls);
 
-// // Send every other request to the React app
-// // Define any API routes before this runs
-// app.get('*', (req, res) => {
-// 	res.sendFile(path.join(__dirname, './client/build/index.html'));
-// });
-
-// app.listen(PORT, () => {
-// 	console.log(`🌎 ==> API server now on port ${PORT}!`);
-// });
+// app.listen(4000, () => console.log('Server is Running'));
