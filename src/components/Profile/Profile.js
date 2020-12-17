@@ -75,7 +75,7 @@ class Profile extends Component {
 	}
 	componentDidMount() {
 		const userId = this.loadStoraged();
-		axios.get('http://localhost:4000/app/userid', { params: { id: userId } }).then((response) => {
+		axios.get('/app/userid', { params: { id: userId } }).then((response) => {
 			this.setState({
 				avatar: response.data[0].avatar,
 				id: response.data[0]._id,

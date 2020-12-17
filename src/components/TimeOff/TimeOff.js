@@ -5,7 +5,7 @@ import TimeOffElement from './TimeOffElement';
 import { format, compareAsc } from 'date-fns';
 import { List, TextField, Button, Paper, Grid, MenuItem, FormControl, Select, InputLabel } from '@material-ui/core';
 import axios from 'axios';
-import './TimeOff.css'
+import './TimeOff.css';
 import image from '../Home/images/bluebanner.jpg';
 import pushPin from '../Home/images/pushPinBlue.png';
 
@@ -32,22 +32,16 @@ const useStyles = (theme) => ({
 		color: theme.palette.text.secondary,
 		backgroundColor: 'lightgray',
 		marginBottom: '25px'
-
 	},
 	paper2: {
-
-
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
-		backgroundColor: '#F0F0F0',
-
+		backgroundColor: '#F0F0F0'
 	},
 	paper3: {
-
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
-		backgroundColor: '#F0F0F0',
-
+		backgroundColor: '#F0F0F0'
 	},
 	texts: {
 		margin: 'auto',
@@ -56,8 +50,7 @@ const useStyles = (theme) => ({
 		padding: '30px'
 	},
 	input: {
-		backgroundColor: '#F0F0F0',
-
+		backgroundColor: '#F0F0F0'
 	},
 	formControl: {
 		margin: theme.spacing(1),
@@ -91,7 +84,7 @@ class TimeOff extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:4000/app/requests').then((response) => {
+		axios.get('/app/requests').then((response) => {
 			const requests = response.data.map((request) => (
 				<TimeOffElement
 					name={request.name}
@@ -110,7 +103,7 @@ class TimeOff extends Component {
 
 		const userId = this.loadStoraged();
 
-		axios.get('http://localhost:4000/app/userid', { params: { id: userId } }).then((response) => {
+		axios.get('/app/userid', { params: { id: userId } }).then((response) => {
 			this.setState({
 				newRequest: {
 					name: response.data[0].firstName + ' ' + response.data[0].lastName
@@ -183,9 +176,7 @@ class TimeOff extends Component {
 			comment: this.state.newRequest.comment
 		};
 
-		axios
-			.post('http://localhost:4000/app/request', newRequest)
-			.then((response) => console.log('New Request:', response.data));
+		axios.post('/app/request', newRequest).then((response) => console.log('New Request:', response.data));
 
 		this.setState({
 			newRequest: {
@@ -204,21 +195,21 @@ class TimeOff extends Component {
 		const { classes } = this.props;
 		return (
 			<div className="container-fluid">
-			<div className={classes.root}>
-				<Grid container spacing={3}>
-				<Hidden smDown>
-						<Grid item xs={12}>
-							<img class="hero-image" src={image} alt="Logo" width="100%" height="250px" style={{}} />
-						</Grid>
+				<div className={classes.root}>
+					<Grid container spacing={3}>
+						<Hidden smDown>
+							<Grid item xs={12}>
+								<img class="hero-image" src={image} alt="Logo" width="100%" height="250px" style={{}} />
+							</Grid>
 						</Hidden>
-					<Grid item xs={12} md={4}>
-						<Paper className={classes.paper}>
-						<img src={pushPin} alt="Logo" width="55px" height="40px" />
-							<h2>Make a Request</h2>
-							
-							<Accordion style={{ backgroundColor: '#5dafff ' }}>
+						<Grid item xs={12} md={4}>
+							<Paper className={classes.paper}>
+								<img src={pushPin} alt="Logo" width="55px" height="40px" />
+								<h2>Make a Request</h2>
+
+								<Accordion style={{ backgroundColor: '#5dafff ' }}>
 									<AccordionSummary
-									style={{ color:'white'}}
+										style={{ color: 'white' }}
 										expandIcon={<ExpandMoreIcon />}
 										aria-controls="panel1a-content"
 										id="panel1a-header"
@@ -226,88 +217,89 @@ class TimeOff extends Component {
 										<Typography className={classes.heading}>Create New Request</Typography>
 									</AccordionSummary>
 									<AccordionDetails>
+										<Paper className={classes.paper3} style={{ paddingTop: '20px' }}>
+											<form className={classes.root} noValidate autoComplete="off">
+												<TextField
+													id="name"
+													label="Name"
+													onChange={this.changeName}
+													value={this.state.newRequest.name}
+												/>
+												<br />
+												<br />
+												<TextField
+													style={{ width: '45%', marginRight: '25px' }}
+													align="right"
+													id="firstDate"
+													type="date"
+													InputLabelProps={{ shrink: true }}
+													label="First Date"
+													onChange={this.changeFirstDate}
+													value={this.state.newRequest.firstDate}
+												/>
+												{'            '}
+												<TextField
+													style={{ width: '45%' }}
+													align="right"
+													id="lastDate"
+													type="date"
+													label="Last Date"
+													InputLabelProps={{ shrink: true }}
+													onChange={this.changeLastDate}
+													value={this.state.newRequest.lastDate}
+												/>
+												<br />
+												<br />
+												<FormControl style={{ width: '45%' }} className={classes.formControl}>
+													<InputLabel id="requestType">Request Type</InputLabel>
+													<Select
+														id="requestType"
+														onChange={this.changeRequestType}
+														value={this.state.newRequest.requestType}
+													>
+														<MenuItem value={'Paid Time Off'}>Paid Time Off</MenuItem>
+														<MenuItem value={'Unpaid Time Off'}>Unpaid Time Off</MenuItem>
+														<MenuItem value={'Vacations'}>Vacations</MenuItem>
+														<MenuItem value={'Personal Holiday'}>Personal Holiday</MenuItem>
+													</Select>
+												</FormControl>
 
-									<Paper className={classes.paper3} style={{ paddingTop: '20px' }}>
-										<form className={classes.root} noValidate autoComplete="off">
-
-								<TextField
-									id="name"
-									label="Name"
-									onChange={this.changeName}
-									value={this.state.newRequest.name}
-								/>
-								<br />
-								<br />
-								<TextField
-								 style={{ width: '45%', marginRight:'25px' }}
-									align="right"
-									id="firstDate"
-									type="date"
-									
-									InputLabelProps={{ shrink: true }}
-									label="First Date"
-									onChange={this.changeFirstDate}
-									value={this.state.newRequest.firstDate}
-								/>
-								{'            '}
-								<TextField
-								 style={{ width: '45%' }}
-									align="right"
-									id="lastDate"
-									type="date"
-									label="Last Date"
-									InputLabelProps={{ shrink: true }}
-									onChange={this.changeLastDate}
-									value={this.state.newRequest.lastDate}
-								/>
-								<br />
-								<br />
-								<FormControl  style={{ width: '45%' }}className={classes.formControl}>
-									<InputLabel id="requestType">Request Type</InputLabel>
-									<Select
-										id="requestType"
-										onChange={this.changeRequestType}
-										value={this.state.newRequest.requestType}
-									>
-										<MenuItem value={'Paid Time Off'}>Paid Time Off</MenuItem>
-										<MenuItem value={'Unpaid Time Off'}>Unpaid Time Off</MenuItem>
-										<MenuItem value={'Vacations'}>Vacations</MenuItem>
-										<MenuItem value={'Personal Holiday'}>Personal Holiday</MenuItem>
-									</Select>
-								</FormControl>
-
-								<TextField
-									id="comment"
-									label="Comment"
-									variant="outlined"
-									multiline
-									rows={4}
-									onChange={this.changeComment}
-									value={this.state.newRequest.comment}
-								/>
-								<br />
-								<br />
-								<Button variant="contained" size="large" color="primary" onClick={this.onSubmit}>
-									Create Request
-								</Button>
-							</form>	
+												<TextField
+													id="comment"
+													label="Comment"
+													variant="outlined"
+													multiline
+													rows={4}
+													onChange={this.changeComment}
+													value={this.state.newRequest.comment}
+												/>
+												<br />
+												<br />
+												<Button
+													variant="contained"
+													size="large"
+													color="primary"
+													onClick={this.onSubmit}
+												>
+													Create Request
+												</Button>
+											</form>
+										</Paper>
+									</AccordionDetails>
+								</Accordion>
 							</Paper>
-							</AccordionDetails>
-						</Accordion>
-						</Paper>
-					
+						</Grid>
+						<Grid item xs={12} md={8}>
+							<Paper className={classes.paper} elevation={3}>
+								<img src={pushPin} alt="Logo" width="55px" height="40px" />
+								<h2>All Your Requests</h2>
+								<List className={classes.root}>{this.state.requests}</List>
+							</Paper>
+						</Grid>
 					</Grid>
-					<Grid item xs={12} md={8}>
-						<Paper className={classes.paper} elevation={3}>
-						<img src={pushPin} alt="Logo" width="55px" height="40px" />
-							<h2>All Your Requests</h2>
-							<List className={classes.root}>{this.state.requests}</List>
-						</Paper>
-					</Grid>
-				</Grid>
-				<br />
-				<br />
-			</div>
+					<br />
+					<br />
+				</div>
 			</div>
 		);
 	}

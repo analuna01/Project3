@@ -145,9 +145,7 @@ class Register extends Component {
 			address: ''
 		};
 		console.log(registered);
-		axios
-			.post('http://localhost:4000/app/register', registered)
-			.then((response) => console.log('User Registered', response.data));
+		axios.post('/app/register', registered).then((response) => console.log('User Registered', response.data));
 
 		this.setState({
 			avatar: 1,
